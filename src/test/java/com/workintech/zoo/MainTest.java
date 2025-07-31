@@ -19,12 +19,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@ExtendWith(ResultAnalyzer.class)
+//@ExtendWith(com.workintech.s17d2.ResultAnalyzer.class)
 class MainTest {
 
 
@@ -44,8 +43,9 @@ class MainTest {
     @BeforeEach
     void setup() {
 
-        kangaroo = new Kangaroo(1, "Kenny", 2.0, 85.0, "Male", false);
-        koala = new Koala(1, "Kara", 20.0, 15.0, "Female");
+        kangaroo = new Kangaroo(1, "Kenny", 2.0, 85.0,8.0, "Male", false);
+        koala = new Kangaroo(int id, String name, double height, double weight, String gender, boolean isAggressive)
+
 
     }
 
@@ -53,7 +53,7 @@ class MainTest {
     @DisplayName("Test Kangaroo Creation and Field Access")
      void testKangarooCreationAndFieldAccess() {
 
-        Kangaroo kangaroo = new Kangaroo(1, "Kenny", 2.0, 85.0, "Male", false);
+        Kangaroo kangaroo = new Kangaroo(1, "Kenny", 2.0, 85.0,8.0, "Male", false);
 
 
         assertEquals(1, kangaroo.getId());
@@ -68,7 +68,7 @@ class MainTest {
     @DisplayName("Test Kangaroo Setters")
     void testKangarooSetters() {
 
-        Kangaroo kangaroo = new Kangaroo();
+        Kangaroo kangaroo = new Kangaroo(1, "Kenny", 2.0, 85.0, 8.0, "Male", false);
         kangaroo.setId(2);
         kangaroo.setName("Kanga");
         kangaroo.setHeight(1.8);
@@ -103,7 +103,7 @@ class MainTest {
     @DisplayName("Test Koala Setters and Getters")
     void testKoalaSettersAndGetters() {
         // Creating an instance using no-args constructor
-        Koala koala = new Koala();
+        Koala koala = new Koala(1, "Kara", 20.0, 15.0, "Female");
         koala.setId(2);
         koala.setName("Kody");
         koala.setSleepHour(22.0);
@@ -351,7 +351,7 @@ class MainTest {
     @Test
     @DisplayName("ZooGlobalExceptionHandler:HandleGenericException")
     void testHandleGenericException() throws Exception {
-    Kangaroo invalidKangaroo = new Kangaroo();
+    Kangaroo invalidKangaroo = new Kangaroo(1, "Kenny", 2.0, 85.0, 8.0, "Male", false);
     mockMvc.perform(post("/kangaroos")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(invalidKangaroo)))
